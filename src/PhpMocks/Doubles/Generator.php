@@ -4,6 +4,7 @@ namespace PhpMocks\Doubles;
 use gossi\codegen\generator\CodeGenerator;
 use gossi\codegen\model\PhpClass;
 use gossi\codegen\model\PhpMethod;
+use gossi\codegen\model\PhpParameter;
 
 class Generator
 {
@@ -46,25 +47,38 @@ class Generator
         //Better handling of the arguments for abstract!
         $condition = \ReflectionMethod::IS_PUBLIC | \ReflectionMethod::IS_ABSTRACT;
         foreach($this->reflection->getMethods($condition) as $method) {
-            $methodName = $method->getName();
             if($method->isStatic()) {
-                $class->setMethod($this->generateStaticMethod($methodName));
+                $class->setMethod($this->generateStaticMethod($method));
             } else {
-                $class->setMethod($this->generateMethod($methodName));
+                $class->setMethod($this->generateMethod($method));
             }
         }
     }
     
-    private function generateStaticMethod($methodName)
+    private function generateStaticMethod($method)
     {
-        $body = sprintf('return static::callStaticMethod("%s", func_get_args());', $methodName);
-        return PhpMethod::create($methodName)->setBody($body)->setStatic(true);
+        $body = sprintf('return static::callStaticMethod("%s", func_get_args());', $method->getName());
+        $methodDefinition = PhpMethod::create($method->getName())->setBody($body)->setStatic(true);
+        foreach($method->getParameters() as $parameter) {
+            if($parameter->isOptional()) {
+                continue;
+            }
+            $methodDefinition->addParameter(PhpParameter::create()->setName($parameter->getName()));
+        }
+        return $methodDefinition;
     }
     
-    private function generateMethod($methodName)
+    private function generateMethod($method)
     {
-        $body = sprintf('return $this->callMethod("%s", func_get_args());', $methodName);
-        return PhpMethod::create($methodName)->setBody($body);
+        $body = sprintf('return $this->callMethod("%s", func_get_args());', $method->getName());
+        $methodDefinition = PhpMethod::create($method->getName())->setBody($body);
+        foreach($method->getParameters() as $parameter) {
+            if($parameter->isOptional()) {
+                continue;
+            }
+            $methodDefinition->addParameter(PhpParameter::create()->setName($parameter->getName()));
+        }
+        return $methodDefinition;
     }
     
     private function setRelation($class)

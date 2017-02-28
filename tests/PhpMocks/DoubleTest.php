@@ -96,6 +96,30 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('optional 12', $double->methodWithOptionals(1));  
     }
     
+    public function testInstanceMagicMethod()
+    {
+        $doubleBuilder = $this->createInstanceDoubleBuilder();
+        $doubleBuilder
+            ->allowMethodCall('__call')
+            ->with('methodName', ['value_1'])
+            ->andReturn('return_value_1');
+        $double = $doubleBuilder->build();
+        
+        $this->assertEquals('return_value_1', $double->methodName('value_1'));  
+    }
+    
+        public function testInstanceStaticMagicMethod()
+    {
+        $doubleBuilder = $this->createInstanceDoubleBuilder();
+        $doubleBuilder
+            ->allowMethodCall('__callStatic')
+            ->with('methodName', ['value_1'])
+            ->andReturn('return_value_1');
+        $double = $doubleBuilder->build();
+        
+        $this->assertEquals('return_value_1', $double::methodName('value_1'));  
+    }
+    
     public function testInstanceStatic()
     {
         $stdClass = new \stdClass();
@@ -138,7 +162,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
         $doubleBuilder = $this->createInstanceDoubleBuilder();
         $double = $doubleBuilder->build();
         
-        $double->methodWithTypeHint();
+        $double->methodWithTypeHint(null, null, null);
     }
     
     /**
@@ -149,7 +173,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
         $doubleBuilder = $this->createInstanceDoubleBuilder();
         $double = $doubleBuilder->build();
         
-        $double::staticMethod();
+        $double::staticMethod(null);
     }
     
     public function testInstanceIsA()
@@ -263,6 +287,16 @@ class TestingObject
     public static function staticMethodCallOriginal($a)
     {
         return 'originalStatic ' . $a;
+    }
+    
+    public function __call($name, $arguments)
+    {
+        
+    }
+    
+    public static function __callStatic($name, $arguments)
+    {
+        
     }
 }
 
