@@ -146,12 +146,74 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * @expectedException \PhpMocks\Exceptions\UnexpectedCallException
+     */
+    public function testInstanceNonMatchingCall()
+    {
+        $doubleBuilder = $this->createInstanceDoubleBuilder();
+        $doubleBuilder
+            ->allowMethodCall('methodCallback')
+            ->with('value_1')
+            ->andReturn('return_value_1');
+        $double = $doubleBuilder->build();
+        
+        $double->methodCallback('value_2');
+    }
+    
+     /**
+     * @expectedException \PhpMocks\Exceptions\InvalidDefinitionException
+     */
+    public function testInstanceTooManyArguments()
+    {
+        $doubleBuilder = $this->createInstanceDoubleBuilder();
+        $doubleBuilder
+            ->allowMethodCall('methodConsecutive')
+            ->with('value_1')
+            ->andReturn('return_value_1');
+    }
+    
+    /**
+     * @expectedException \PhpMocks\Exceptions\UnexpectedCallException
+     */
+    public function testInstanceTooMuchConsecutiveCalls()
+    {
+        $doubleBuilder = $this->createInstanceDoubleBuilder();
+        $doubleBuilder
+            ->allowMethodCall('methodConsecutive')
+            ->with()
+            ->andReturn('return_value_1', 'return_value_2');
+        $double = $doubleBuilder->build();
+        
+        $this->assertEquals('return_value_1', $double->methodConsecutive());
+        $this->assertEquals('return_value_2', $double->methodConsecutive());
+        $double->methodConsecutive();
+    }
+    
+    /**
      * @expectedException \ReflectionException
      */
     public function testInstanceMissingMethod()
     {
         $doubleBuilder = $this->createInstanceDoubleBuilder();
         $doubleBuilder->allowMethodCall('gibberish');
+    }
+    
+    /**
+     * @expectedException \PhpMocks\Exceptions\InvalidDefinitionException
+     */
+    public function testInstancePrivateMethod()
+    {
+        $doubleBuilder = $this->createInstanceDoubleBuilder();
+        $doubleBuilder->allowMethodCall('methodPrivate');
+    }
+    
+    /**
+     * @expectedException \PhpMocks\Exceptions\InvalidDefinitionException
+     */
+    public function testInstanceProtectedMethod()
+    {
+        $doubleBuilder = $this->createInstanceDoubleBuilder();
+        $doubleBuilder->allowMethodCall('methodProtected');
     }
     
     /**
@@ -196,6 +258,19 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
         $double = $doubleBuilder->build();
         
         $this->assertEquals('return_value_1', $double->methodCallback('return_value_1'));    
+    }
+    
+    public function testAbstractClassMethod()
+    {
+        $className = 'PhpMocks\TestingAbstractObject';
+        $doubleBuilder = new \PhpMocks\Doubles\Builder($className);
+        $doubleBuilder
+            ->allowMethodCall('methodAbstract')
+            ->with('value_1', 'value_2')
+            ->andReturn('return_value_1');
+        $double = $doubleBuilder->build();
+        
+        $this->assertEquals('return_value_1', $double->methodAbstract('value_1', 'value_2'));    
     }
     
     /**
@@ -298,6 +373,21 @@ class TestingObject
     {
         
     }
+    
+    private function methodPrivate()
+    {
+        
+    }
+    
+    protected function methodProtected()
+    {
+        
+    }
+}
+
+abstract class TestingAbstractObject
+{
+    abstract public function methodAbstract($a, $b);
 }
 
 interface TestingInterface

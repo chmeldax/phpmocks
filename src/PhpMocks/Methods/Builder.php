@@ -1,6 +1,8 @@
 <?php
 namespace PhpMocks\Methods;
 
+use PhpMocks\Exceptions\InvalidDefinitionException;
+
 class Builder
 {
     /** @var \ReflectionClass */
@@ -33,9 +35,11 @@ class Builder
     private function checkIsPublic(\ReflectionMethod $reflectionMethod)
     {
         if(!$reflectionMethod->isPublic()) {
-            throw new \InvalidArgumentException(
+            $message = 'Method %s is no public! Non-public methods are not ' . 
+                        'supported.';
+            throw new InvalidDefinitionException(
                 sprintf(
-                    'Method %s is no public! Non-public methods are not supported.',
+                    $message,
                     $reflectionMethod->getName()
                 )
             );

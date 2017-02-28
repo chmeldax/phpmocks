@@ -1,6 +1,8 @@
 <?php
 namespace PhpMocks\Constraints;
 
+use PhpMocks\Exceptions\InvalidConstraintException;
+
 class Value implements Constraint
 {
     /** @var mixed */
@@ -19,7 +21,7 @@ class Value implements Constraint
      * 
      * @param \ReflectionParameter $parameterReflection
      * @return boolean
-     * @throws \InvalidArgumentException
+     * @throws InvalidConstraintException
      */
     public function checkCompliance(\ReflectionParameter $parameterReflection)
     {
@@ -29,8 +31,10 @@ class Value implements Constraint
         }
 
         if(is_object($this->value) && !is_a($this->value, $class->name)) {
-            throw new \InvalidArgumentException(
-                sprintf("Supplied value does not comply with the method definition.", $this->value)
+            $message = 'Supplied value for parameter %s does not comply with ' .
+                       'the method definition!';
+            throw new InvalidConstraintException(
+                sprintf($message, $parameterReflection->getName())
             );
         }
         return true;

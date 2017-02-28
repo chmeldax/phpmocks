@@ -62,7 +62,8 @@ class Builder
             $this->reflection = new \ReflectionObject($class);
             $this->instance = $class;
         }  else {
-            throw new \InvalidArgumentException('The argument $class should be an object or a string.');
+            $message = 'The argument $class should be an object or a string.';
+            throw new \InvalidArgumentException($message);
         }
     }
     

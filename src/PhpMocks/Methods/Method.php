@@ -1,6 +1,8 @@
 <?php
 namespace PhpMocks\Methods;
 
+use \PhpMocks\Exceptions\UnexpectedCallException;
+
 class Method
 {
     /** @var \PhpMocks\Branches\Branch[] */
@@ -19,7 +21,10 @@ class Method
     public function __construct(\ReflectionMethod $methodReflection, $instance)
     {
         $this->methodReflection = $methodReflection;
-        $this->branchBuilder = new \PhpMocks\Branches\Builder($methodReflection, $instance);
+        $this->branchBuilder = new \PhpMocks\Branches\Builder(
+            $methodReflection,
+            $instance
+        );
     }
     
     /**
@@ -45,7 +50,10 @@ class Method
                 return $branch->performCall($arguments);
             }
         }
-        throw new \Exception('There is no block available');
+        
+        $message = 'There is no matching definition for this call!  Please, ' .
+                   'check you with() blocks.';
+        throw new UnexpectedCallException($message);
     }
     
     /**

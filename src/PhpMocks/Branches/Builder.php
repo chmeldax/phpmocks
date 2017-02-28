@@ -1,6 +1,8 @@
 <?php
 namespace PhpMocks\Branches;
 
+use PhpMocks\Exceptions\InvalidDefinitionException;
+
 class Builder
 {
     /** @var \ReflectionMethod */ 
@@ -49,7 +51,8 @@ class Builder
         $requiredParametersCount = $this->methodReflection->getNumberOfRequiredParameters();
         $parametersCount = $this->methodReflection->getNumberOfParameters();
         if(count($constraints) < $requiredParametersCount || (count($constraints) > $parametersCount && !$this->isVariadicPresent())) {
-            throw new \InvalidArgumentException;
+            $message = 'Number of parameters is incorrect.';
+            throw new InvalidDefinitionException($message);
         }
     }
     

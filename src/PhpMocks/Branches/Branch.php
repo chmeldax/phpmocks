@@ -1,6 +1,8 @@
 <?php
 namespace PhpMocks\Branches;
 
+use \PhpMocks\Exceptions\UnexpectedCallException;
+
 class Branch
 {
     /** @var \PhpMocks\Constraints\Constraint[] */
@@ -120,7 +122,9 @@ class Branch
     private function getReturnValue()
     {
         if(!array_key_exists($this->numberOfCalls, $this->returnValues)) {
-            throw new Exception();
+            $message = 'There are not enough return values for consecutive ' .
+                        'calls!';
+            throw new UnexpectedCallException($message);
         }
         $returnValue = $this->returnValues[$this->numberOfCalls];
         $this->numberOfCalls++;
