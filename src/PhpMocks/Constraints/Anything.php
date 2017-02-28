@@ -28,4 +28,3 @@ class Anything implements Constraint
         return true;
     }
 }
-

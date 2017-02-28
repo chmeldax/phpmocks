@@ -16,6 +16,7 @@ class Type implements Constraint
     {
         $this->typeName = $typeName;
         $this->type = $this->getType($typeName);
+        throw new \Exception('not implemented yet');
     }
     
     public function checkValue($variable)
@@ -88,4 +89,3 @@ class Type implements Constraint
         throw new \InvalidArgumentException('Unknown type');
     }
 }
-

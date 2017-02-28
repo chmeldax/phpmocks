@@ -24,6 +24,12 @@ class Branch
     /** @var integer */
     private $numberOfCalls = 0;
     
+    /**
+     * 
+     * @param array $constraints
+     * @param \ReflectionMethod $methodReflection
+     * @param object|null $instance
+     */
     public function __construct(array $constraints, \ReflectionMethod $methodReflection, $instance)
     {
         $this->constraints = $constraints;
@@ -32,7 +38,6 @@ class Branch
     }
     
     /**
-     * 
      * @param array $parameters
      */
     public function isEligible(array $parameters)
@@ -50,6 +55,11 @@ class Branch
         return true;
     }
     
+    /**
+     * @param array $parameters
+     * @return mixed
+     * @throws \Exception
+     */
     public function performCall(array $parameters)
     {
         if($this->callOriginal) {
@@ -60,9 +70,13 @@ class Branch
             throw $this->exception;
         }
         return $this->getReturnValue();
-       
     }
     
+    /**
+     * 
+     * @param mixed $returnValues
+     * @throws \Exception
+     */
     public function andReturn(...$returnValues)
     {
         if($this->callback) {
@@ -71,6 +85,10 @@ class Branch
         $this->returnValues = $returnValues;
     }
     
+    /**
+     * @param callable $callback
+     * @throws \Exception
+     */
     public function andInvoke(callable $callback)
     {
         if($this->returnValues) {
@@ -79,12 +97,18 @@ class Branch
         $this->callback = $callback;
     }
     
+    /**
+     * @param \Exception $exception
+     */
     public function andThrow(\Exception $exception)
     {
         //Check for others
         $this->exception = $exception;
     }
     
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function andCallOriginal()
     {
         if(is_null($this->instance)) {

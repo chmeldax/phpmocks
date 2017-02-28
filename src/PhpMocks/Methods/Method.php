@@ -13,7 +13,6 @@ class Method
     private $methodReflection;
     
     /**
-     * 
      * @param \ReflectionMethod $methodReflection
      * @param object|null $instance
      */
@@ -23,6 +22,10 @@ class Method
         $this->branchBuilder = new \PhpMocks\Branches\Builder($methodReflection, $instance);
     }
     
+    /**
+     * @param mixed $constraints
+     * @return \PhpMocks\Branches\Branch
+     */
     public function with(...$constraints)
     {
         $branch = $this->branchBuilder->build($constraints);
@@ -30,6 +33,11 @@ class Method
         return $branch;
     }
     
+    /**
+     * @param mixed $arguments
+     * @return mixed
+     * @throws \Exception
+     */
     public function performCall($arguments)
     {
         foreach(array_reverse($this->branches) as $branch) {

@@ -36,7 +36,6 @@ class Value implements Constraint
         return true;
     }
     
-    
     /**
      * 
      * @param mixed $actualValue
@@ -47,4 +46,3 @@ class Value implements Constraint
         return $actualValue === $this->value;
     }
 }
-
