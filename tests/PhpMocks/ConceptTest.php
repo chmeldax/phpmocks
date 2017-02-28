@@ -18,6 +18,11 @@ class TestingObject
     }
 }
 
+interface TestingInterface
+{
+    public function testMethod();
+}
+
 class Exception extends \Exception
 {
     
@@ -64,6 +69,16 @@ class ConceptTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('helloA', $double::staticMethod2($stdClass));
         $this->assertEquals('originalStatic staticHaha', $double::staticMethod3('staticHaha'));
         $this->assertTrue(is_a($double, $className));
+        
+        $interfaceName = 'PhpMocks\\TestingInterface';
+        $interfaceBuilder = new \PhpMocks\Doubles\Builder($interfaceName);
+        $interfaceBuilder
+            ->allowMethodCall('testMethod')
+            ->with()
+            ->andReturn('hello');
+        $interface = $interfaceBuilder->build();
+        $this->assertEquals('hello', $interface->testMethod());
+        $this->assertTrue(is_a($interface, $interfaceName));
     }
 }
 

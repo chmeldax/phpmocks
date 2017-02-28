@@ -34,7 +34,7 @@ class Generator
         $name = '\PhpMocks\\Doubles\\Instance' . uniqid();
         $class = PhpClass::fromFile(__DIR__ . '/Instance.php');
         $class->setQualifiedName($name);
-        $class->setParentClassName('\\' . $this->reflection->getName());
+        $this->setRelation($class);
         $this->generateMethods($class);
         $classDefinition =  (new CodeGenerator)->generate($class);
         eval($classDefinition);
@@ -65,5 +65,15 @@ class Generator
     {
         $body = sprintf('return $this->callMethod("%s", func_get_args());', $methodName);
         return PhpMethod::create($methodName)->setBody($body);
+    }
+    
+    private function setRelation($class)
+    {
+        $name = '\\' .$this->reflection->getName();
+        if($this->reflection->isInterface()) {
+            $class->addInterface($name);
+        } else {
+            $class->setParentClassName('\\' . $this->reflection->getName());
+        }
     }
 }
