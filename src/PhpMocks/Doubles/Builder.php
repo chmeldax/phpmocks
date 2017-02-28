@@ -43,7 +43,8 @@ class Builder
      */
     public function build()
     {
-        return new Instance($this->methods);
+        $generator = new Generator($this->reflection, $this->methods);
+        return $generator->generate();
     }
     
     private function processClass($class)

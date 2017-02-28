@@ -16,16 +16,17 @@ class Instance
         $this->methods = $methods;
     }
     
-    public function __call($name, $arguments)
+    private function callMethod($methodName, array $arguments)
     {
-        if(!isset($this->methods[$name])) {
-            throw new \Exception("Unexpected call to $name");
+        if(array_key_exists($methodName, $this->methods)) {
+            return $this->methods[$methodName]->performCall($arguments);
         }
-        return $this->methods[$name]->performCall($arguments);
+        
+        throw new \InvalidArgumentExcepton('Unexpected call.');
     }
     
-    public static function __callStatic($name, $arguments) {
-        throw new \InvalidArgumentException('Mocking of static methods is not supported.');
+    private static function callStaticMethod()
+    {
+        throw new \InvalidArgumentException('Unexpected call.');
     }
 }
-

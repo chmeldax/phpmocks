@@ -48,13 +48,15 @@ class ConceptTest extends \PHPUnit_Framework_TestCase
         } catch (Exception $ex) {
             
         }
-         $this->assertEquals('original haha', $double->whatever2('haha'));
+        
+        $this->assertEquals('original haha', $double->whatever2('haha'));
         try {
             $double::staticMethod();
             $this->fail('Exception not thrown');
-        } catch (\Exception $ex) {
-            
+        } catch (\InvalidArgumentException $ex) {
         }
+        
+        $this->assertTrue(is_a($double, $className));
     }
 }
 
