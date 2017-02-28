@@ -27,7 +27,6 @@ class Builder
     {
         $reflectionMethod = $this->reflection->getMethod($methodName);
         $this->checkIsPublic($reflectionMethod);
-        $this->checkIsNonStatic($reflectionMethod);
         return new Method($reflectionMethod, $this->instance);
     }
     
@@ -38,17 +37,6 @@ class Builder
                 sprintf(
                     'Method %s is no public! Non-public methods are not supported.',
                     $reflectionMethod->getName()
-                )
-            );
-        }
-    }
-    
-    private function checkIsNonStatic(\ReflectionMethod $reflectionMethod)
-    {
-        if($reflectionMethod->isStatic()) {
-            throw new \InvalidArgumentException(
-                sprintf('Method %s is static! Static methods are not supported.',
-                        $reflectionMethod->getName()
                 )
             );
         }

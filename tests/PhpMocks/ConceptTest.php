@@ -12,6 +12,10 @@ class TestingObject
         return 'original ' . $a;
     }
     public static function staticMethod() {}
+    public static function staticMethod2(\stdClass $a) {}
+    public static function staticMethod3($a) {
+        return 'originalStatic ' . $a;
+    }
 }
 
 class Exception extends \Exception
@@ -36,7 +40,9 @@ class ConceptTest extends \PHPUnit_Framework_TestCase
         });
         $doubleBuilder->allowMethodCall('whatever')->with()->andThrow(new Exception);
         $doubleBuilder->allowMethodCall('whatever2')->with('haha')->andCallOriginal();
-        //$double->expectMethodCall('testMethod')->once()->with(new Constraints\Type('string'))->andReturn('hello');
+        $doubleBuilder->allowMethodCall('staticMethod2')->with($stdClass)->andReturn('helloA');
+        $doubleBuilder->allowMethodCall('staticMethod3')->with('staticHaha')->andCallOriginal();
+                
         $double = $doubleBuilder->build();
         
         $this->assertEquals('hello', $double->testMethod('hehe', 'hehe', $stdClass));
@@ -55,7 +61,8 @@ class ConceptTest extends \PHPUnit_Framework_TestCase
             $this->fail('Exception not thrown');
         } catch (\InvalidArgumentException $ex) {
         }
-        
+        $this->assertEquals('helloA', $double::staticMethod2($stdClass));
+        $this->assertEquals('originalStatic staticHaha', $double::staticMethod3('staticHaha'));
         $this->assertTrue(is_a($double, $className));
     }
 }

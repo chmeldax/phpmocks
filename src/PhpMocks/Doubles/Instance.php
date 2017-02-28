@@ -6,14 +6,18 @@ class Instance
     /** @var \PhpMocks\Methods\Method[] */
     private $methods;
     
+    /** @var \PhpMocks\Methods\Method[] */
+    private static $staticMethods;
+    
     /**
      * 
-     * @param \ReflectionClass $reflection
-     * @param mixed $originalInstance
+     * @param array $methods
+     * @param array $staticMethods
      */
-    public function __construct(array $methods)
+    public function __construct(array $methods, array $staticMethods)
     {
         $this->methods = $methods;
+        self::$staticMethods = $staticMethods;
     }
     
     private function callMethod($methodName, array $arguments)
@@ -22,11 +26,15 @@ class Instance
             return $this->methods[$methodName]->performCall($arguments);
         }
         
-        throw new \InvalidArgumentExcepton('Unexpected call.');
+        throw new \InvalidArgumentException('Unexpected call.');
     }
     
-    private static function callStaticMethod()
+    private static function callStaticMethod($methodName, array $arguments)
     {
+        if(array_key_exists($methodName, self::$staticMethods)) {
+            return self::$staticMethods[$methodName]->performCall($arguments);
+        }
+        
         throw new \InvalidArgumentException('Unexpected call.');
     }
 }

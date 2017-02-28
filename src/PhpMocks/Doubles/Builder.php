@@ -10,7 +10,10 @@ class Builder
     private $reflection;
     
     /** @var PhpMocks\Methods\Method[] */
-    private $methods;
+    private $methods = [];
+    
+    /** @var PhpMocks\Methods\Method[] */
+    private $staticMethods = [];
     
     /** @var \PhpMocks\Methods\Builder */
     private $methodBuilder;
@@ -34,7 +37,7 @@ class Builder
     public function allowMethodCall($methodName)
     {
         $allowedMethod = $this->methodBuilder->build($methodName);
-        $this->methods[$methodName] = $allowedMethod;
+        $this->appendMethod($allowedMethod, $methodName);
         return $allowedMethod;
     }
     
@@ -43,7 +46,11 @@ class Builder
      */
     public function build()
     {
-        $generator = new Generator($this->reflection, $this->methods);
+        $generator = new Generator(
+            $this->reflection,
+            $this->methods,
+            $this->staticMethods
+        );
         return $generator->generate();
     }
     
@@ -56,6 +63,15 @@ class Builder
             $this->instance = $class;
         }  else {
             throw new \InvalidArgumentException('The argument $class should be an object or a string.');
+        }
+    }
+    
+    private function appendMethod($method, $methodName)
+    {
+        if($method->isStatic()) {
+            $this->staticMethods[$methodName] = $method;
+        } else {
+            $this->methods[$methodName] = $method;
         }
     }
 }

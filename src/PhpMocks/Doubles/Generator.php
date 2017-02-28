@@ -13,15 +13,20 @@ class Generator
     /** @var array */
     private $methods;
     
+    /** @var array */
+    private $staticMethods;
+    
     /**
      * 
      * @param \ReflectionClass $reflection
      * @param array $methods
+     * @param array $staticMethods
      */
-    public function __construct(\ReflectionClass $reflection, array $methods)
+    public function __construct(\ReflectionClass $reflection, array $methods, array $staticMethods)
     {
         $this->reflection = $reflection;
         $this->methods = $methods;
+        $this->staticMethods = $staticMethods;
     }
     
     public function generate()
@@ -33,7 +38,7 @@ class Generator
         $this->generateMethods($class);
         $classDefinition =  (new CodeGenerator)->generate($class);
         eval($classDefinition);
-        return new $name($this->methods);
+        return new $name($this->methods, $this->staticMethods);
     }
     
     private function generateMethods($class)
@@ -52,7 +57,7 @@ class Generator
     
     private function generateStaticMethod($methodName)
     {
-        $body = 'return static::callStaticMethod();';
+        $body = sprintf('return static::callStaticMethod("%s", func_get_args());', $methodName);
         return PhpMethod::create($methodName)->setBody($body)->setStatic(true);
     }
     

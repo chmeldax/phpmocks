@@ -9,6 +9,9 @@ class Method
     /** @var \PhpMocks\Branches\Builder */
     private $branchBuilder;
     
+    /** @var \ReflectionMethod */
+    private $methodReflection;
+    
     /**
      * 
      * @param \ReflectionMethod $methodReflection
@@ -16,6 +19,7 @@ class Method
      */
     public function __construct(\ReflectionMethod $methodReflection, $instance)
     {
+        $this->methodReflection = $methodReflection;
         $this->branchBuilder = new \PhpMocks\Branches\Builder($methodReflection, $instance);
     }
     
@@ -34,6 +38,14 @@ class Method
             }
         }
         throw new \Exception('There is no block available');
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isStatic()
+    {
+        return $this->methodReflection->isStatic();
     }
 }
 
