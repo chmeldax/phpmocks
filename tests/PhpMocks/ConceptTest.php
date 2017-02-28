@@ -16,6 +16,12 @@ class TestingObject
     public static function staticMethod3($a) {
         return 'originalStatic ' . $a;
     }
+    public function variadicMethod($a, ...$variadic) {
+        return 'variadic ' . $a . $variadic[0] . $variadic[1];
+    }
+    public function optionalParametersMethod($a, $b = '2') {
+        return 'optional ' . $a . $b;
+    }
 }
 
 interface TestingInterface
@@ -47,6 +53,8 @@ class ConceptTest extends \PHPUnit_Framework_TestCase
         $doubleBuilder->allowMethodCall('whatever2')->with('haha')->andCallOriginal();
         $doubleBuilder->allowMethodCall('staticMethod2')->with($stdClass)->andReturn('helloA');
         $doubleBuilder->allowMethodCall('staticMethod3')->with('staticHaha')->andCallOriginal();
+        $doubleBuilder->allowMethodCall('variadicMethod')->with(1, 2, 3)->andCallOriginal();
+        $doubleBuilder->allowMethodCall('optionalParametersMethod')->with(1)->andCallOriginal();
                 
         $double = $doubleBuilder->build();
         
@@ -61,6 +69,8 @@ class ConceptTest extends \PHPUnit_Framework_TestCase
         }
         
         $this->assertEquals('original haha', $double->whatever2('haha'));
+        $this->assertEquals('variadic 123', $double->variadicMethod(1, 2, 3));
+        $this->assertEquals('optional 12', $double->optionalParametersMethod(1));
         try {
             $double::staticMethod();
             $this->fail('Exception not thrown');
