@@ -217,6 +217,15 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * @expectedException \PhpMocks\Exceptions\InvalidDefinitionException
+     */
+    public function testInstanceConstructor()
+    {
+        $doubleBuilder = $this->createInstanceDoubleBuilder();
+        $doubleBuilder->allowMethodCall('__construct');
+    }
+    
+    /**
      * @expectedException \InvalidArgumentException
      */
     public function testInstanceNotAllowedMethodCall()
@@ -319,6 +328,11 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
 
 class TestingObject 
 {
+    public function __construct()
+    {
+        
+    }
+    
     public function methodWithTypeHint($a, $b, \stdClass $c)
     {
         

@@ -144,15 +144,14 @@ class ExpectedMethodTest extends \PHPUnit_Framework_TestCase
     
     private function createInstanceDoubleBuilder()
     {
-        $instance = new TestingObject2;
+        $instance = new TestingObjectExpectations;
         return new \PhpMocks\Doubles\Builder($instance);
     }
 }
 
-class TestingObject2
+class TestingObjectExpectations
 {
-     public function methodWithTypeHint($a, $b, \stdClass $c)
+    public function methodWithTypeHint($a, $b, \stdClass $c)
     {
-        
     }
 }

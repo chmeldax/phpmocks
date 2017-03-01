@@ -37,7 +37,7 @@ class Generator
         $class->setQualifiedName($name);
         $this->setRelation($class);
         $this->generateMethods($class);
-        $classDefinition =  (new CodeGenerator)->generate($class);
+        $classDefinition = (new CodeGenerator)->generate($class);
         eval($classDefinition);
         return new $name($this->methods, $this->staticMethods);
     }
@@ -47,6 +47,9 @@ class Generator
         //Better handling of the arguments for abstract!
         $condition = \ReflectionMethod::IS_PUBLIC | \ReflectionMethod::IS_ABSTRACT;
         foreach($this->reflection->getMethods($condition) as $method) {
+            if($method->isConstructor()){
+                continue;
+            }
             if($method->isStatic()) {
                 $class->setMethod($this->generateStaticMethod($method));
             } else {
