@@ -1,7 +1,7 @@
 <?php
-namespace PhpMocks\Expectations;
+namespace Chmeldax\PhpMocks\Expectations;
 
-use \PhpMocks\Exceptions\UnexpectedCallException;
+use \Chmeldax\PhpMocks\Exceptions\UnexpectedCallException;
 
 class Expectation
 {

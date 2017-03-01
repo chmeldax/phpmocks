@@ -1,5 +1,5 @@
 <?php
-namespace PhpMocks\Doubles;
+namespace Chmeldax\PhpMocks\Doubles;
 
 class Builder
 {
@@ -9,13 +9,13 @@ class Builder
     /** @var \ReflectionClass */
     private $reflection;
     
-    /** @var PhpMocks\Methods\Method[] */
+    /** @var Chmeldax\PhpMocks\Methods\Method[] */
     private $methods = [];
     
-    /** @var PhpMocks\Methods\Method[] */
+    /** @var Chmeldax\PhpMocks\Methods\Method[] */
     private $staticMethods = [];
     
-    /** @var \PhpMocks\Methods\Builder */
+    /** @var \Chmeldax\PhpMocks\Methods\Builder */
     private $methodBuilder;
     
     /**
@@ -24,7 +24,7 @@ class Builder
     public function __construct($class)
     {
         $this->processClass($class);
-        $this->methodBuilder = new \PhpMocks\Methods\Builder(
+        $this->methodBuilder = new \Chmeldax\PhpMocks\Methods\Builder(
             $this->reflection,
             $this->instance
         );
@@ -32,7 +32,7 @@ class Builder
     
     /**
      * @param string $methodName
-     * @return \PhpMocks\Doubles\AllowedMethod
+     * @return \Chmeldax\PhpMocks\Doubles\AllowedMethod
      */
     public function allowMethodCall($methodName)
     {
@@ -49,7 +49,7 @@ class Builder
     
     /**
      * @param string $methodName
-     * @return \PhpMocks\Doubles\Method
+     * @return \Chmeldax\PhpMocks\Doubles\Method
      */
     public function expectMethodCall($methodName)
     {
@@ -76,7 +76,7 @@ class Builder
     }
     
     /**
-     * @return \PhpMocks\Doubles\Instance
+     * @return \Chmeldax\PhpMocks\Doubles\Instance
      */
     public function build()
     {

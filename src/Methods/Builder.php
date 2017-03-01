@@ -1,7 +1,7 @@
 <?php
-namespace PhpMocks\Methods;
+namespace Chmeldax\PhpMocks\Methods;
 
-use PhpMocks\Exceptions\InvalidDefinitionException;
+use Chmeldax\PhpMocks\Exceptions\InvalidDefinitionException;
 
 class Builder
 {
@@ -23,7 +23,7 @@ class Builder
     
     /**
      * @param string $methodName
-     * @return \PhpMocks\Methods\Method
+     * @return \Chmeldax\PhpMocksMethods\Method
      */
     public function build($methodName)
     {
@@ -35,7 +35,7 @@ class Builder
     
     /**
      * @param string $methodName
-     * @return \PhpMocks\Methods\AllowedMethod
+     * @return \Chmeldax\PhpMocksMethods\AllowedMethod
      */
     public function buildAllowed($methodName)
     {

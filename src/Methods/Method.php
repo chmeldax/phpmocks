@@ -1,14 +1,14 @@
 <?php
-namespace PhpMocks\Methods;
+namespace Chmeldax\PhpMocks\Methods;
 
-use \PhpMocks\Exceptions\UnexpectedCallException;
+use \Chmeldax\PhpMocks\Exceptions\UnexpectedCallException;
 
 class Method
 {
-    /** @var \PhpMocks\Branches\Branch[] */
+    /** @var \Chmeldax\PhpMocksBranches\Branch[] */
     private $branches = [];
     
-    /** @var \PhpMocks\Branches\Builder */
+    /** @var \Chmeldax\PhpMocks\Branches\Builder */
     private $branchBuilder;
     
     /** @var \ReflectionMethod */
@@ -24,7 +24,7 @@ class Method
     public function __construct(\ReflectionMethod $methodReflection, $instance)
     {
         $this->methodReflection = $methodReflection;
-        $this->branchBuilder = new \PhpMocks\Branches\Builder(
+        $this->branchBuilder = new \Chmeldax\PhpMocks\Branches\Builder(
             $methodReflection,
             $instance
         );
@@ -32,7 +32,7 @@ class Method
     
     /**
      * @param mixed $constraints
-     * @return \PhpMocks\Branches\Branch
+     * @return \Chmeldax\PhpMocks\Branches\Branch
      */
     public function with(...$constraints)
     {

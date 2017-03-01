@@ -1,18 +1,18 @@
 <?php
-namespace PhpMocks\Branches;
+namespace Chmeldax\PhpMocks\Branches;
 
-use PhpMocks\Expectations\CallExpectation;
-use PhpMocks\Expectations\CountExpectation;
+use Chmeldax\PhpMocks\Expectations\CallExpectation;
+use Chmeldax\PhpMocks\Expectations\CountExpectation;
 
 class Branch
 {
-    /** @var \PhpMocks\Constraints\Constraint[] */
+    /** @var \Chmeldax\PhpMocks\Constraints\Constraint[] */
     private $constraints;
     
     /** @var \ReflectionMethod */
     private $methodReflection;
     
-    /** @var PhpMocks\Expectations\Expectation */
+    /** @var Chmeldax\PhpMocks\Expectations\Expectation */
     private $expectation;
     
     /**

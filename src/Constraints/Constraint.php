@@ -1,5 +1,5 @@
 <?php
-namespace PhpMocks\Constraints;
+namespace Chmeldax\PhpMocks\Constraints;
 
 interface Constraint
 {

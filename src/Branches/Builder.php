@@ -1,7 +1,7 @@
 <?php
-namespace PhpMocks\Branches;
+namespace Chmeldax\PhpMocks\Branches;
 
-use PhpMocks\Exceptions\InvalidDefinitionException;
+use Chmeldax\PhpMocks\Exceptions\InvalidDefinitionException;
 
 class Builder
 {
@@ -66,10 +66,10 @@ class Builder
     
     private function getConstraintObject($constraint)
     {
-        if(is_a($constraint, '\PhpMocks\Constraints\Constraint')) {
+        if(is_a($constraint, '\Chmeldax\PhpMocks\Constraints\Constraint')) {
             return $constraint;
         }
-        return new \PhpMocks\Constraints\Value($constraint);
+        return new \Chmeldax\PhpMocks\Constraints\Value($constraint);
     }
     
     private function getParameterReflection($parameterNumber)

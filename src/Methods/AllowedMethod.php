@@ -1,11 +1,11 @@
 <?php
-namespace PhpMocks\Methods;
+namespace Chmeldax\PhpMocks\Methods;
 
 class AllowedMethod extends Method
 {   
     /**
      * @param mixed $constraints
-     * @return \PhpMocks\Branches\Branch
+     * @return \Chmeldax\PhpMocks\Branches\Branch
      */
     public function with(...$constraints)
     {

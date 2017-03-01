@@ -1,7 +1,7 @@
 <?php
-namespace PhpMocks;
+namespace Chmeldax\PhpMocks;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class ExpectedMethodTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ class ExpectedMethodTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\Expectations\ExpectationNotMetException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\ExpectationNotMetException
      */
     public function testTimesFailing()
     {
@@ -55,7 +55,7 @@ class ExpectedMethodTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\Expectations\ExpectationNotMetException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\ExpectationNotMetException
      */
     public function testNeverFailing()
     {
@@ -99,7 +99,7 @@ class ExpectedMethodTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\Expectations\ExpectationNotMetException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\ExpectationNotMetException
      */
     public function testAtCallsFailing()
     {
@@ -145,7 +145,7 @@ class ExpectedMethodTest extends \PHPUnit_Framework_TestCase
     private function createInstanceDoubleBuilder()
     {
         $instance = new TestingObjectExpectations;
-        return new \PhpMocks\Doubles\Builder($instance);
+        return new \Chmeldax\PhpMocks\Doubles\Builder($instance);
     }
 }
 

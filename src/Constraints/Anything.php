@@ -1,7 +1,7 @@
 <?php
-namespace PhpMocks\Constraints;
+namespace Chmeldax\PhpMocks\Constraints;
 
-use PhpMocks\Exceptions\InvalidConstraintException;
+use Chmeldax\PhpMocks\Exceptions\InvalidConstraintException;
 
 class Anything implements Constraint
 {   

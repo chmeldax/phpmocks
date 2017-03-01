@@ -1,5 +1,7 @@
 <?php
-namespace PhpMocks\Expectations;
+namespace Chmeldax\PhpMocks\Expectations;
+
+use Chmeldax\PhpMocks\Exceptions\ExpectationNotMetException;
 
 class CountExpectation extends Expectation
 {

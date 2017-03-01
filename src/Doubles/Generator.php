@@ -1,5 +1,5 @@
 <?php
-namespace PhpMocks\Doubles;
+namespace Chmeldax\PhpMocks\Doubles;
 
 use gossi\codegen\generator\CodeGenerator;
 use gossi\codegen\model\PhpClass;
@@ -32,7 +32,7 @@ class Generator
     
     public function generate()
     {
-        $name = '\PhpMocks\\Doubles\\Instance' . uniqid();
+        $name = '\Chmeldax\\PhpMocks\\Doubles\\Instance' . uniqid();
         $class = PhpClass::fromFile(__DIR__ . '/Instance.php');
         $class->setQualifiedName($name);
         $this->setRelation($class);

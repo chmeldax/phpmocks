@@ -1,7 +1,7 @@
 <?php
-namespace PhpMocks;
+namespace Chmeldax\PhpMocks;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class DoubleTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +46,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\TestException
+     * @expectedException \Chmeldax\PhpMocks\TestException
      */
     public function testInstanceException()
     {
@@ -146,7 +146,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\Exceptions\UnexpectedCallException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\UnexpectedCallException
      */
     public function testInstanceNonMatchingCall()
     {
@@ -161,7 +161,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
      /**
-     * @expectedException \PhpMocks\Exceptions\InvalidDefinitionException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\InvalidDefinitionException
      */
     public function testInstanceTooManyArguments()
     {
@@ -173,7 +173,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\Exceptions\UnexpectedCallException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\UnexpectedCallException
      */
     public function testInstanceTooMuchConsecutiveCalls()
     {
@@ -199,7 +199,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\Exceptions\InvalidDefinitionException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\InvalidDefinitionException
      */
     public function testInstancePrivateMethod()
     {
@@ -208,7 +208,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\Exceptions\InvalidDefinitionException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\InvalidDefinitionException
      */
     public function testInstanceProtectedMethod()
     {
@@ -217,7 +217,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \PhpMocks\Exceptions\InvalidDefinitionException
+     * @expectedException \Chmeldax\PhpMocks\Exceptions\InvalidDefinitionException
      */
     public function testInstanceConstructor()
     {
@@ -252,12 +252,12 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
         $doubleBuilder = $this->createInstanceDoubleBuilder();
         $double = $doubleBuilder->build();
         
-        $this->assertTrue(is_a($double, 'PhpMocks\TestingObject'));
+        $this->assertTrue(is_a($double, 'Chmeldax\PhpMocks\TestingObject'));
     }
     
     public function testInstanceWithClassName()
     {
-        $doubleBuilder = new \PhpMocks\Doubles\Builder('PhpMocks\TestingObject');
+        $doubleBuilder = new \Chmeldax\PhpMocks\Doubles\Builder('Chmeldax\PhpMocks\TestingObject');
         $doubleBuilder
             ->allowMethodCall('methodCallback')
             ->with('return_value_1')
@@ -271,8 +271,8 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     
     public function testAbstractClassMethod()
     {
-        $className = 'PhpMocks\TestingAbstractObject';
-        $doubleBuilder = new \PhpMocks\Doubles\Builder($className);
+        $className = 'Chmeldax\PhpMocks\TestingAbstractObject';
+        $doubleBuilder = new \Chmeldax\PhpMocks\Doubles\Builder($className);
         $doubleBuilder
             ->allowMethodCall('methodAbstract')
             ->with('value_1', 'value_2')
@@ -287,7 +287,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
      */
     public function testInstanceWithClassNameCallOriginal()
     {
-        $doubleBuilder = new \PhpMocks\Doubles\Builder('PhpMocks\TestingObject');
+        $doubleBuilder = new \Chmeldax\PhpMocks\Doubles\Builder('Chmeldax\PhpMocks\TestingObject');
         $doubleBuilder
             ->allowMethodCall('methodCallOriginal')
             ->with('return_value_1')
@@ -299,8 +299,8 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     
     public function testInterfaceMethod()
     {
-        $interfaceName = 'PhpMocks\\TestingInterface';
-        $interfaceBuilder = new \PhpMocks\Doubles\Builder($interfaceName);
+        $interfaceName = 'Chmeldax\\PhpMocks\\TestingInterface';
+        $interfaceBuilder = new \Chmeldax\PhpMocks\Doubles\Builder($interfaceName);
         $interfaceBuilder
             ->allowMethodCall('method')
             ->with()
@@ -312,8 +312,8 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     
     public function testInterfaceIsA()
     {
-        $interfaceName = 'PhpMocks\\TestingInterface';
-        $interfaceBuilder = new \PhpMocks\Doubles\Builder($interfaceName);
+        $interfaceName = 'Chmeldax\\PhpMocks\\TestingInterface';
+        $interfaceBuilder = new \Chmeldax\PhpMocks\Doubles\Builder($interfaceName);
         $interface = $interfaceBuilder->build();
         
         $this->assertTrue(is_a($interface, $interfaceName));
@@ -322,7 +322,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     private function createInstanceDoubleBuilder()
     {
         $instance = new TestingObject;
-        return new \PhpMocks\Doubles\Builder($instance);
+        return new \Chmeldax\PhpMocks\Doubles\Builder($instance);
     }
 }
 

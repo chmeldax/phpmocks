@@ -1,12 +1,12 @@
 <?php
-namespace PhpMocks\Doubles;
+namespace Chmeldax\PhpMocksDoubles;
 
 class Instance
 {
-    /** @var \PhpMocks\Methods\Method[] */
+    /** @var \Chmeldax\PhpMocksMethods\Method[] */
     private $methods;
     
-    /** @var \PhpMocks\Methods\Method[] */
+    /** @var \Chmeldax\PhpMocksMethods\Method[] */
     private static $staticMethods;
     
     /**
