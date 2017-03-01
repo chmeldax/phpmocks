@@ -36,9 +36,43 @@ class Builder
      */
     public function allowMethodCall($methodName)
     {
-        $allowedMethod = $this->methodBuilder->build($methodName);
+        if(array_key_exists($methodName, $this->methods)) {
+            return $this->methods[$methodName];
+        }
+        if(array_key_exists($methodName, $this->staticMethods)) {
+            return $this->staticMethods[$methodName];
+        }
+        $allowedMethod = $this->methodBuilder->buildAllowed($methodName);
         $this->appendMethod($allowedMethod, $methodName);
         return $allowedMethod;
+    }
+    
+    /**
+     * @param string $methodName
+     * @return \PhpMocks\Doubles\Method
+     */
+    public function expectMethodCall($methodName)
+    {
+        if(array_key_exists($methodName, $this->methods)) {
+            return $this->methods[$methodName];
+        }
+        if(array_key_exists($methodName, $this->staticMethods)) {
+            return $this->staticMethods[$methodName];
+        }
+        $method = $this->methodBuilder->build($methodName);
+        $this->appendMethod($method, $methodName);
+        return $method;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function checkExpectations()
+    {
+        foreach($this->methods as $method) {
+            $method->checkExpectations();
+        }
+        return true;
     }
     
     /**

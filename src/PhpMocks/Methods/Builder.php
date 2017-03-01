@@ -32,6 +32,17 @@ class Builder
         return new Method($reflectionMethod, $this->instance);
     }
     
+    /**
+     * @param string $methodName
+     * @return \PhpMocks\Methods\AllowedMethod
+     */
+    public function buildAllowed($methodName)
+    {
+        $reflectionMethod = $this->reflection->getMethod($methodName);
+        $this->checkIsPublic($reflectionMethod);
+        return new AllowedMethod($reflectionMethod, $this->instance);
+    }
+    
     private function checkIsPublic(\ReflectionMethod $reflectionMethod)
     {
         if(!$reflectionMethod->isPublic()) {

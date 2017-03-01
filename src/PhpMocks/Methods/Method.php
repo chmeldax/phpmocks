@@ -14,6 +14,9 @@ class Method
     /** @var \ReflectionMethod */
     private $methodReflection;
     
+    /** @var integer */
+    private $callNumber = 0;
+    
     /**
      * @param \ReflectionMethod $methodReflection
      * @param object|null $instance
@@ -38,6 +41,15 @@ class Method
         return $branch;
     }
     
+    public function checkExpectations()
+    {
+        foreach($this->branches as $branch) {
+            $branch->checkExpectation();
+        }
+        return true;
+    }
+    
+    
     /**
      * @param mixed $arguments
      * @return mixed
@@ -45,9 +57,10 @@ class Method
      */
     public function performCall($arguments)
     {
+        $this->callNumber++;
         foreach(array_reverse($this->branches) as $branch) {
             if($branch->isEligible($arguments)) {
-                return $branch->performCall($arguments);
+                return $branch->performCall($arguments, $this->callNumber);
             }
         }
         

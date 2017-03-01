@@ -1,7 +1,8 @@
 <?php
 namespace PhpMocks\Branches;
 
-use \PhpMocks\Exceptions\UnexpectedCallException;
+use PhpMocks\Expectations\CallExpectation;
+use PhpMocks\Expectations\CountExpectation;
 
 class Branch
 {
@@ -11,20 +12,8 @@ class Branch
     /** @var \ReflectionMethod */
     private $methodReflection;
     
-    /** @var object|null */
-    private $instance;
-    
-    /** @var array */
-    private $returnValues;
-    
-    /** @var $callback */
-    private $callback;
-    
-    /** @var \Exception */
-    private $exception;
-    
-    /** @var integer */
-    private $numberOfCalls = 0;
+    /** @var PhpMocks\Expectations\Expectation */
+    private $expectation;
     
     /**
      * 
@@ -59,76 +48,75 @@ class Branch
     
     /**
      * @param array $parameters
+     * @param integer $callNumber
      * @return mixed
      * @throws \Exception
      */
-    public function performCall(array $parameters)
+    public function performCall(array $parameters, $callNumber)
     {
-        if($this->callOriginal) {
-            return $this->methodReflection->invokeArgs($this->instance, $parameters);
-        } elseif($this->callback) {
-            return call_user_func_array($this->callback, $parameters);
-        } elseif ($this->exception) {
-            throw $this->exception;
-        }
-        return $this->getReturnValue();
+        return $this->expectation->performCall($parameters, $callNumber);
     }
     
     /**
-     * 
-     * @param mixed $returnValues
-     * @throws \Exception
+     * @return CountExpectation
      */
-    public function andReturn(...$returnValues)
+    public function once()
     {
-        if($this->callback) {
-            throw new \Exception('You cannot use both Invoke and Return');
-        }
-        $this->returnValues = $returnValues;
+        return $this->times(1);
+    }
+
+    /**
+     * @param integer $count
+     * @return CountExpectation
+     */
+    public function times($count)
+    {
+        $expectation = new CountExpectation($this->methodReflection, $this->instance, $count);
+        $this->expectation = $expectation;
+        return $expectation;
     }
     
     /**
-     * @param callable $callback
-     * @throws \Exception
+     * @return CountExpectation
      */
-    public function andInvoke(callable $callback)
+    public function never()
     {
-        if($this->returnValues) {
-            throw new \Exception('You cannot use both Invoke and Return');
-        }
-        $this->callback = $callback;
+        return $this->times(0);
     }
     
     /**
-     * @param \Exception $exception
+     * @return CallExpectation
      */
-    public function andThrow(\Exception $exception)
+    public function anytime()
     {
-        //Check for others
-        $this->exception = $exception;
+        $expectation = new CallExpectation($this->methodReflection, $this->instance, null);
+        $this->expectation = $expectation;
+        return $expectation;
     }
     
     /**
-     * @throws \InvalidArgumentException
+     * @param integer $callNumber
+     * @return CallExpectation
      */
-    public function andCallOriginal()
+    public function atCall($callNumber)    
     {
-        if(is_null($this->instance)) {
-            throw new \InvalidArgumentException;
-        }
-        $this->callOriginal = true;
+        return $this->atCalls($callNumber);
     }
     
-    private function getReturnValue()
+    /**
+     * @param integer $callNumbers
+     * @return CallExpectation
+     */
+    public function atCalls(...$callNumbers)
     {
-        if(!array_key_exists($this->numberOfCalls, $this->returnValues)) {
-            $message = 'There are not enough return values for consecutive ' .
-                        'calls!';
-            throw new UnexpectedCallException($message);
-        }
-        $returnValue = $this->returnValues[$this->numberOfCalls];
-        $this->numberOfCalls++;
-        return $returnValue;
+        $expectation = new CallExpectation($this->methodReflection, $this->instance, $callNumbers);
+        $this->expectation = $expectation;
+        return $expectation;
+    }
+    
+    public function checkExpectation()
+    {
+        return $this->expectation->isExpectationMet();
     }
 }
 
