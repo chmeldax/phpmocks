@@ -79,7 +79,7 @@ class Generator
             if ($parameter->isOptional()) {
                 continue;
             }
-            $methodDefinition->addParameter(PhpParameter::create()->setName($parameter->getName()));
+            $methodDefinition->addParameter($this->generateParameter($parameter));
         }
         return $methodDefinition;
     }
@@ -92,5 +92,15 @@ class Generator
         } else {
             $class->setParentClassName('\\' . $this->reflection->getName());
         }
+    }
+    
+    private function generateParameter($parameter)
+    {
+        $generatedParameter = PhpParameter::create();
+        $generatedParameter->setName($parameter->getName());
+        if (!is_null($parameter->getClass())) {
+            $generatedParameter->setType('\\' . $parameter->getClass()->getName());
+        }
+        return $generatedParameter;
     }
 }

@@ -228,10 +228,11 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
      */
     public function testInstanceNotAllowedMethodCall()
     {
+        $stdClass = new \stdClass();
         $doubleBuilder = $this->createInstanceDoubleBuilder();
         $double = $doubleBuilder->build();
         
-        $double->methodWithTypeHint(null, null, null);
+        $double->methodWithTypeHint(null, null, $stdClass);
     }
     
     /**
