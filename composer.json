@@ -22,7 +22,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Chmeldax\\PhpMocks\\": ["src", "test"]
+            "Chmeldax\\PhpMocks\\": ["src", "tests"]
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit tests && vendor/bin/phpcs tests --standard=PSR2"
     }
 }

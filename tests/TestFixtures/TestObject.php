@@ -1,7 +1,7 @@
 <?php
 namespace Chmeldax\PhpMocks\TestFixtures;
 
-class Object
+class TestObject
 {
     public function __construct()
     {

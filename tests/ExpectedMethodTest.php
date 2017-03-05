@@ -1,8 +1,6 @@
 <?php
 namespace Chmeldax\PhpMocks;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 class ExpectedMethodTest extends \PHPUnit_Framework_TestCase
 {
     public function testTimesSuccess()
@@ -144,14 +142,7 @@ class ExpectedMethodTest extends \PHPUnit_Framework_TestCase
     
     private function createInstanceDoubleBuilder()
     {
-        $instance = new TestingObjectExpectations;
-        return new \Chmeldax\PhpMocks\Doubles\Builder($instance);
-    }
-}
-
-class TestingObjectExpectations
-{
-    public function methodWithTypeHint($a, $b, \stdClass $c)
-    {
+        $instance = new TestFixtures\TestObjectExpectations;
+        return new Doubles\Builder($instance);
     }
 }
