@@ -1,4 +1,18 @@
 {
+    "name": "chmeldax/phpmocks",
+    "type": "library",
+    "description": "Enhanced mocking of PHP classes for testing purposes",
+    "keywords": ["mocks","testing"],
+    "homepage": "https://github.com/chmeldax/phpmocks",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jan Chmelicek",
+            "email": "chmeldax@gmail.com",
+            "homepage": "http://about.me/chmeldax",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "phpunit/phpunit": "^5.7",
         "gossi/php-code-generator": "^0.4.1"
