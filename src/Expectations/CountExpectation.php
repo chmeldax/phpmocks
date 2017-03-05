@@ -37,10 +37,10 @@ class CountExpectation extends Expectation
      */
     public function isExpectationMet()
     {
-        if(is_null($this->expectedNumberOfCalls)) {
+        if (is_null($this->expectedNumberOfCalls)) {
             return true;
         }
-        if($this->expectedNumberOfCalls !== $this->numberOfCalls) {
+        if ($this->expectedNumberOfCalls !== $this->numberOfCalls) {
             $message = 'Expected %s calls for method %s, got %s calls.';
             throw new ExpectationNotMetException(
                 sprintf(

@@ -18,7 +18,7 @@ class Generator
     private $staticMethods;
     
     /**
-     * 
+     *
      * @param \ReflectionClass $reflection
      * @param array $methods
      * @param array $staticMethods
@@ -46,11 +46,11 @@ class Generator
     {
         //Better handling of the arguments for abstract!
         $condition = \ReflectionMethod::IS_PUBLIC | \ReflectionMethod::IS_ABSTRACT;
-        foreach($this->reflection->getMethods($condition) as $method) {
-            if($method->isConstructor()){
+        foreach ($this->reflection->getMethods($condition) as $method) {
+            if ($method->isConstructor()) {
                 continue;
             }
-            if($method->isStatic()) {
+            if ($method->isStatic()) {
                 $class->setMethod($this->generateStaticMethod($method));
             } else {
                 $class->setMethod($this->generateMethod($method));
@@ -62,8 +62,8 @@ class Generator
     {
         $body = sprintf('return static::callStaticMethod("%s", func_get_args());', $method->getName());
         $methodDefinition = PhpMethod::create($method->getName())->setBody($body)->setStatic(true);
-        foreach($method->getParameters() as $parameter) {
-            if($parameter->isOptional()) {
+        foreach ($method->getParameters() as $parameter) {
+            if ($parameter->isOptional()) {
                 continue;
             }
             $methodDefinition->addParameter(PhpParameter::create()->setName($parameter->getName()));
@@ -75,8 +75,8 @@ class Generator
     {
         $body = sprintf('return $this->callMethod("%s", func_get_args());', $method->getName());
         $methodDefinition = PhpMethod::create($method->getName())->setBody($body);
-        foreach($method->getParameters() as $parameter) {
-            if($parameter->isOptional()) {
+        foreach ($method->getParameters() as $parameter) {
+            if ($parameter->isOptional()) {
                 continue;
             }
             $methodDefinition->addParameter(PhpParameter::create()->setName($parameter->getName()));
@@ -87,7 +87,7 @@ class Generator
     private function setRelation($class)
     {
         $name = '\\' .$this->reflection->getName();
-        if($this->reflection->isInterface()) {
+        if ($this->reflection->isInterface()) {
             $class->addInterface($name);
         } else {
             $class->setParentClassName('\\' . $this->reflection->getName());

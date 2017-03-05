@@ -1,4 +1,6 @@
 <?php
 namespace Chmeldax\PhpMocks\Exceptions;
 
-class InvalidDefinitionException extends Exception {}
+class InvalidDefinitionException extends Exception
+{
+}

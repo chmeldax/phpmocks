@@ -5,7 +5,7 @@ use Chmeldax\PhpMocks\Exceptions\InvalidDefinitionException;
 
 class Builder
 {
-    /** @var \ReflectionMethod */ 
+    /** @var \ReflectionMethod */
     private $methodReflection;
     
     /** @var \ReflectionParameter[]; */
@@ -15,7 +15,7 @@ class Builder
     private $instance;
 
     /**
-     * 
+     *
      * @param \ReflectionMethod $methodReflection
      */
     public function __construct(\ReflectionMethod $methodReflection, $instance)
@@ -26,7 +26,7 @@ class Builder
     }
     
     /**
-     * 
+     *
      * @param array $constraints
      */
     public function build(array $constraints)
@@ -35,7 +35,7 @@ class Builder
         $constraintObjects = [];
         $parameterNumber = 0;
         
-        foreach($constraints as $constraint) {
+        foreach ($constraints as $constraint) {
             $constraintObject = $this->getConstraintObject($constraint);
             $parameterReflection = $this->getParameterReflection($parameterNumber);
             $constraintObject->checkCompliance($parameterReflection);
@@ -48,25 +48,33 @@ class Builder
     
     private function checkConstraints($constraints)
     {
-        $requiredParametersCount = $this->methodReflection->getNumberOfRequiredParameters();
-        $parametersCount = $this->methodReflection->getNumberOfParameters();
-        if(count($constraints) < $requiredParametersCount || (count($constraints) > $parametersCount && !$this->isVariadicPresent())) {
+        if (!$this->checkNumberOfParameters($constraints)) {
             $message = 'Number of parameters is incorrect.';
             throw new InvalidDefinitionException($message);
         }
     }
     
+    private function checkNumberOfParameters($constraints)
+    {
+        $requiredParametersCount = $this->methodReflection->getNumberOfRequiredParameters();
+        $parametersCount = $this->methodReflection->getNumberOfParameters();
+        return !(count($constraints) < $requiredParametersCount ||
+                (count($constraints) > $parametersCount
+                    && !$this->isVariadicPresent())
+               );
+    }
+    
     private function isVariadicPresent()
     {
-        if(count($this->parameterReflections) === 0) {
+        if (count($this->parameterReflections) === 0) {
             return false;
         }
-       return end($this->parameterReflections)->isVariadic(); 
+        return end($this->parameterReflections)->isVariadic();
     }
     
     private function getConstraintObject($constraint)
     {
-        if(is_a($constraint, '\Chmeldax\PhpMocks\Constraints\Constraint')) {
+        if (is_a($constraint, '\Chmeldax\PhpMocks\Constraints\Constraint')) {
             return $constraint;
         }
         return new \Chmeldax\PhpMocks\Constraints\Value($constraint);
@@ -74,11 +82,11 @@ class Builder
     
     private function getParameterReflection($parameterNumber)
     {
-        if(array_key_exists($parameterNumber, $this->parameterReflections)) {
+        if (array_key_exists($parameterNumber, $this->parameterReflections)) {
             return $this->parameterReflections[$parameterNumber];
         }
         
-        if($this->isVariadicPresent()) {
+        if ($this->isVariadicPresent()) {
             return end($this->parameterReflections);
         }
         

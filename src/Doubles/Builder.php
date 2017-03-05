@@ -36,10 +36,10 @@ class Builder
      */
     public function allowMethodCall($methodName)
     {
-        if(array_key_exists($methodName, $this->methods)) {
+        if (array_key_exists($methodName, $this->methods)) {
             return $this->methods[$methodName];
         }
-        if(array_key_exists($methodName, $this->staticMethods)) {
+        if (array_key_exists($methodName, $this->staticMethods)) {
             return $this->staticMethods[$methodName];
         }
         $allowedMethod = $this->methodBuilder->buildAllowed($methodName);
@@ -53,10 +53,10 @@ class Builder
      */
     public function expectMethodCall($methodName)
     {
-        if(array_key_exists($methodName, $this->methods)) {
+        if (array_key_exists($methodName, $this->methods)) {
             return $this->methods[$methodName];
         }
-        if(array_key_exists($methodName, $this->staticMethods)) {
+        if (array_key_exists($methodName, $this->staticMethods)) {
             return $this->staticMethods[$methodName];
         }
         $method = $this->methodBuilder->build($methodName);
@@ -69,7 +69,7 @@ class Builder
      */
     public function checkExpectations()
     {
-        foreach($this->methods as $method) {
+        foreach ($this->methods as $method) {
             $method->checkExpectations();
         }
         return true;
@@ -90,12 +90,12 @@ class Builder
     
     private function processClass($class)
     {
-        if(is_string($class)) {
+        if (is_string($class)) {
             $this->reflection = new \ReflectionClass($class);
-        } else if (is_object($class)) {
+        } elseif (is_object($class)) {
             $this->reflection = new \ReflectionObject($class);
             $this->instance = $class;
-        }  else {
+        } else {
             $message = 'The argument $class should be an object or a string.';
             throw new \InvalidArgumentException($message);
         }
@@ -103,7 +103,7 @@ class Builder
     
     private function appendMethod($method, $methodName)
     {
-        if($method->isStatic()) {
+        if ($method->isStatic()) {
             $this->staticMethods[$methodName] = $method;
         } else {
             $this->methods[$methodName] = $method;

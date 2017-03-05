@@ -37,14 +37,14 @@ class CallExpectation extends Expectation
      */
     public function isExpectationMet()
     {
-        if(is_null($this->expectedCallNumbers)) {
+        if (is_null($this->expectedCallNumbers)) {
             return true;
         }
         
-        if($this->expectedCallNumbers != $this->callNumbers) {
-            $message = 'Expected method %s to be called at calls number %s ' . 
+        if ($this->expectedCallNumbers != $this->callNumbers) {
+            $message = 'Expected method %s to be called at calls number %s ' .
                        'instead of %s.';
-             throw new ExpectationNotMetException(
+            throw new ExpectationNotMetException(
                 sprintf(
                     $message,
                     $this->methodReflection->getName(),

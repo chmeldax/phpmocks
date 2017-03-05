@@ -47,8 +47,8 @@ class Builder
     
     private function checkIsPublic(\ReflectionMethod $reflectionMethod)
     {
-        if(!$reflectionMethod->isPublic()) {
-            $message = 'Method %s is no public! Non-public methods are not ' . 
+        if (!$reflectionMethod->isPublic()) {
+            $message = 'Method %s is no public! Non-public methods are not ' .
                         'supported.';
             throw new InvalidDefinitionException(
                 sprintf(
@@ -61,7 +61,7 @@ class Builder
     
     private function checkIsNotConstructor(\ReflectionMethod $reflectionMethod)
     {
-        if($reflectionMethod->isConstructor()) {
+        if ($reflectionMethod->isConstructor()) {
             $message = 'Mocking __construct() method is not allowed.';
             throw new InvalidDefinitionException(
                 sprintf(

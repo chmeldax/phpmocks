@@ -10,7 +10,7 @@ class Instance
     private static $staticMethods;
     
     /**
-     * 
+     *
      * @param array $methods
      * @param array $staticMethods
      */
@@ -22,7 +22,7 @@ class Instance
     
     private function callMethod($methodName, array $arguments)
     {
-        if(array_key_exists($methodName, $this->methods)) {
+        if (array_key_exists($methodName, $this->methods)) {
             return $this->methods[$methodName]->performCall($arguments);
         }
         
@@ -31,7 +31,7 @@ class Instance
     
     private static function callStaticMethod($methodName, array $arguments)
     {
-        if(array_key_exists($methodName, self::$staticMethods)) {
+        if (array_key_exists($methodName, self::$staticMethods)) {
             return self::$staticMethods[$methodName]->performCall($arguments);
         }
         

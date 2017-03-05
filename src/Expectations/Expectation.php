@@ -31,7 +31,7 @@ class Expectation
     {
         $this->methodReflection = $methodReflection;
         $this->instance = $instance;
-    } 
+    }
     
     /**
      * @return boolean
@@ -49,9 +49,9 @@ class Expectation
      */
     public function performCall(array $parameters, $callNumber)
     {
-        if($this->callOriginal) {
+        if ($this->callOriginal) {
             return $this->methodReflection->invokeArgs($this->instance, $parameters);
-        } elseif($this->callback) {
+        } elseif ($this->callback) {
             return call_user_func_array($this->callback, $parameters);
         } elseif ($this->exception) {
             throw $this->exception;
@@ -60,13 +60,13 @@ class Expectation
     }
     
     /**
-     * 
+     *
      * @param mixed $returnValues
      * @throws \Exception
      */
     public function andReturn(...$returnValues)
     {
-        if($this->callback) {
+        if ($this->callback) {
             throw new \Exception('You cannot use both Invoke and Return');
         }
         $this->returnValues = $returnValues;
@@ -78,7 +78,7 @@ class Expectation
      */
     public function andInvoke(callable $callback)
     {
-        if($this->returnValues) {
+        if ($this->returnValues) {
             throw new \Exception('You cannot use both Invoke and Return');
         }
         $this->callback = $callback;
@@ -98,7 +98,7 @@ class Expectation
      */
     public function andCallOriginal()
     {
-        if(is_null($this->instance)) {
+        if (is_null($this->instance)) {
             throw new \InvalidArgumentException;
         }
         $this->callOriginal = true;
@@ -106,11 +106,11 @@ class Expectation
     
     private function getReturnValue()
     {
-        if(count($this->returnValues) === 1) {
+        if (count($this->returnValues) === 1) {
             return $this->returnValues[0];
         }
         
-        if(!array_key_exists($this->numberOfCalls, $this->returnValues)) {
+        if (!array_key_exists($this->numberOfCalls, $this->returnValues)) {
             $message = 'There are not enough return values for consecutive ' .
                         'calls!';
             throw new UnexpectedCallException($message);

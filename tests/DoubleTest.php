@@ -1,5 +1,5 @@
 <?php
-namespace Chmeldax\PhpMocks;
+namespace Chmeldax\PhpMocks\Tests;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -37,8 +37,8 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
         $doubleBuilder
             ->allowMethodCall('methodCallback')
             ->with('return_value_1')
-            ->andInvoke(function($whatever) {
-                return $whatever; 
+            ->andInvoke(function ($whatever) {
+                return $whatever;
             });
         $double = $doubleBuilder->build();
         
@@ -69,7 +69,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
             ->andCallOriginal();
         $double = $doubleBuilder->build();
         
-        $this->assertEquals('original return_value_1', $double->methodCallOriginal('return_value_1'));   
+        $this->assertEquals('original return_value_1', $double->methodCallOriginal('return_value_1'));
     }
     
     public function testInstanceVariadic()
@@ -81,7 +81,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
             ->andCallOriginal();
         $double = $doubleBuilder->build();
         
-        $this->assertEquals('variadic 123', $double->methodVariadic(1, 2, 3));  
+        $this->assertEquals('variadic 123', $double->methodVariadic(1, 2, 3));
     }
     
     public function testInstanceWithOptionals()
@@ -93,7 +93,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
             ->andCallOriginal();
         $double = $doubleBuilder->build();
         
-        $this->assertEquals('optional 12', $double->methodWithOptionals(1));  
+        $this->assertEquals('optional 12', $double->methodWithOptionals(1));
     }
     
     public function testInstanceMagicMethod()
@@ -105,10 +105,10 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
             ->andReturn('return_value_1');
         $double = $doubleBuilder->build();
         
-        $this->assertEquals('return_value_1', $double->methodName('value_1'));  
+        $this->assertEquals('return_value_1', $double->methodName('value_1'));
     }
     
-        public function testInstanceStaticMagicMethod()
+    public function testInstanceStaticMagicMethod()
     {
         $doubleBuilder = $this->createInstanceDoubleBuilder();
         $doubleBuilder
@@ -117,7 +117,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
             ->andReturn('return_value_1');
         $double = $doubleBuilder->build();
         
-        $this->assertEquals('return_value_1', $double::methodName('value_1'));  
+        $this->assertEquals('return_value_1', $double::methodName('value_1'));
     }
     
     public function testInstanceStatic()
@@ -261,12 +261,12 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
         $doubleBuilder
             ->allowMethodCall('methodCallback')
             ->with('return_value_1')
-            ->andInvoke(function($whatever) {
-                return $whatever; 
+            ->andInvoke(function ($whatever) {
+                return $whatever;
             });
         $double = $doubleBuilder->build();
         
-        $this->assertEquals('return_value_1', $double->methodCallback('return_value_1'));    
+        $this->assertEquals('return_value_1', $double->methodCallback('return_value_1'));
     }
     
     public function testAbstractClassMethod()
@@ -279,7 +279,7 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
             ->andReturn('return_value_1');
         $double = $doubleBuilder->build();
         
-        $this->assertEquals('return_value_1', $double->methodAbstract('value_1', 'value_2'));    
+        $this->assertEquals('return_value_1', $double->methodAbstract('value_1', 'value_2'));
     }
     
     /**
@@ -326,83 +326,8 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TestingObject 
-{
-    public function __construct()
-    {
-        
-    }
-    
-    public function methodWithTypeHint($a, $b, \stdClass $c)
-    {
-        
-    }
-    
-    public function methodConsecutive()
-    {
-        
-    }
-    
-    public function methodCallback($a)
-    {
-        
-    }
-    
-    public function methodException()
-    {
-        
-    }
-    
-    public function methodCallOriginal($a)
-    {
-        return 'original ' . $a;
-    }
-    
-    public function methodVariadic($a, ...$variadic)
-    {
-        return 'variadic ' . $a . $variadic[0] . $variadic[1];
-    }
-    
-    public function methodWithOptionals($a, $b = '2')
-    {
-        return 'optional ' . $a . $b;
-    }
-    
-    public static function staticMethod(\stdClass $a)
-    {
-        
-    }
-    
-    public static function staticMethodCallOriginal($a)
-    {
-        return 'originalStatic ' . $a;
-    }
-    
-    public function __call($name, $arguments)
-    {
-        
-    }
-    
-    public static function __callStatic($name, $arguments)
-    {
-        
-    }
-    
-    private function methodPrivate()
-    {
-        
-    }
-    
-    protected function methodProtected()
-    {
-        
-    }
-}
 
-abstract class TestingAbstractObject
-{
-    abstract public function methodAbstract($a, $b);
-}
+
 
 interface TestingInterface
 {

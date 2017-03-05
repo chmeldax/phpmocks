@@ -4,9 +4,9 @@ namespace Chmeldax\PhpMocks\Constraints;
 use Chmeldax\PhpMocks\Exceptions\InvalidConstraintException;
 
 class Anything implements Constraint
-{   
+{
     /**
-     * 
+     *
      * @param mixed $actualValue
      * @return boolean
      */
@@ -16,7 +16,7 @@ class Anything implements Constraint
     }
     
     /**
-     * 
+     *
      * @param \ReflectionParameter $parameterReflection
      * @return boolean
      * @throws InvalidConstraintException
@@ -24,7 +24,7 @@ class Anything implements Constraint
     public function checkCompliance(\ReflectionParameter $parameterReflection)
     {
         $class = $parameterReflection->getClass();
-        if(!is_null($class)) {
+        if (!is_null($class)) {
             $message = 'Using this constraint is not allowed since the ' .
                        'definition for parameter %s contains type hint.';
             throw new InvalidConstraintException(

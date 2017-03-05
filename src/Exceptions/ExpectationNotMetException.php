@@ -1,4 +1,6 @@
 <?php
 namespace Chmeldax\PhpMocks\Exceptions;
 
-class ExpectationNotMetException extends Exception {}
+class ExpectationNotMetException extends Exception
+{
+}

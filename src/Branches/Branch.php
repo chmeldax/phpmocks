@@ -16,7 +16,7 @@ class Branch
     private $expectation;
     
     /**
-     * 
+     *
      * @param array $constraints
      * @param \ReflectionMethod $methodReflection
      * @param object|null $instance
@@ -33,12 +33,12 @@ class Branch
      */
     public function isEligible(array $parameters)
     {
-        if(count($this->constraints) !== count($parameters)) {
+        if (count($this->constraints) !== count($parameters)) {
             return false;
         }
         $parameter = current($parameters);
-        foreach($this->constraints as $constraint) {
-            if(!$constraint->checkValue($parameter)) {
+        foreach ($this->constraints as $constraint) {
+            if (!$constraint->checkValue($parameter)) {
                 return false;
             }
             $parameter = next($parameters);
@@ -98,7 +98,7 @@ class Branch
      * @param integer $callNumber
      * @return CallExpectation
      */
-    public function atCall($callNumber)    
+    public function atCall($callNumber)
     {
         return $this->atCalls($callNumber);
     }
@@ -119,4 +119,3 @@ class Branch
         return $this->expectation->isExpectationMet();
     }
 }
-

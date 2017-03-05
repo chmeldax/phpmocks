@@ -9,7 +9,7 @@ class Value implements Constraint
     private $value;
     
     /**
-     * 
+     *
      * @param mixed $value
      */
     public function __construct($value)
@@ -18,7 +18,7 @@ class Value implements Constraint
     }
     
     /**
-     * 
+     *
      * @param \ReflectionParameter $parameterReflection
      * @return boolean
      * @throws InvalidConstraintException
@@ -26,11 +26,11 @@ class Value implements Constraint
     public function checkCompliance(\ReflectionParameter $parameterReflection)
     {
         $class = $parameterReflection->getClass();
-        if(is_null($class)) {
+        if (is_null($class)) {
             return true;
         }
 
-        if(is_object($this->value) && !is_a($this->value, $class->name)) {
+        if (is_object($this->value) && !is_a($this->value, $class->name)) {
             $message = 'Supplied value for parameter %s does not comply with ' .
                        'the method definition!';
             throw new InvalidConstraintException(
@@ -41,7 +41,7 @@ class Value implements Constraint
     }
     
     /**
-     * 
+     *
      * @param mixed $actualValue
      * @return bool
      */

@@ -43,7 +43,7 @@ class Method
     
     public function checkExpectations()
     {
-        foreach($this->branches as $branch) {
+        foreach ($this->branches as $branch) {
             $branch->checkExpectation();
         }
         return true;
@@ -58,8 +58,8 @@ class Method
     public function performCall($arguments)
     {
         $this->callNumber++;
-        foreach(array_reverse($this->branches) as $branch) {
-            if($branch->isEligible($arguments)) {
+        foreach (array_reverse($this->branches) as $branch) {
+            if ($branch->isEligible($arguments)) {
                 return $branch->performCall($arguments, $this->callNumber);
             }
         }
@@ -77,4 +77,3 @@ class Method
         return $this->methodReflection->isStatic();
     }
 }
-
