@@ -63,10 +63,7 @@ class Generator
         $body = sprintf('return static::callStaticMethod("%s", func_get_args());', $method->getName());
         $methodDefinition = PhpMethod::create($method->getName())->setBody($body)->setStatic(true);
         foreach ($method->getParameters() as $parameter) {
-            if ($parameter->isOptional()) {
-                continue;
-            }
-            $methodDefinition->addParameter(PhpParameter::create()->setName($parameter->getName()));
+            $methodDefinition->addParameter($this->generateParameter($parameter));
         }
         return $methodDefinition;
     }
@@ -76,9 +73,6 @@ class Generator
         $body = sprintf('return $this->callMethod("%s", func_get_args());', $method->getName());
         $methodDefinition = PhpMethod::create($method->getName())->setBody($body);
         foreach ($method->getParameters() as $parameter) {
-            if ($parameter->isOptional()) {
-                continue;
-            }
             $methodDefinition->addParameter($this->generateParameter($parameter));
         }
         return $methodDefinition;
@@ -100,6 +94,11 @@ class Generator
         $generatedParameter->setName($parameter->getName());
         if (!is_null($parameter->getClass())) {
             $generatedParameter->setType('\\' . $parameter->getClass()->getName());
+        } else if($parameter->isVariadic()) {
+            $generatedParameter->setType('...');
+        }
+        if($parameter->isDefaultValueAvailable()) {
+            $generatedParameter->setExpression($parameter->getDefaultValue());
         }
         return $generatedParameter;
     }

@@ -240,10 +240,11 @@ class DoubleTest extends \PHPUnit_Framework_TestCase
      */
     public function testInstanceNotAllowedStaticMethodCall()
     {
+        $stdClass = new \stdClass();
         $doubleBuilder = $this->createInstanceDoubleBuilder();
         $double = $doubleBuilder->build();
         
-        $double::staticMethod(null);
+        $double::staticMethod($stdClass);
     }
     
     public function testInstanceIsA()

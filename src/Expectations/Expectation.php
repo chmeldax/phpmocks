@@ -20,6 +20,9 @@ class Expectation
     /** @var \Exception */
     private $exception;
     
+    /** @var boolean */
+    private $callOriginal;
+    
     /** @var \ReflectionMethod */
     protected $methodReflection;
     
