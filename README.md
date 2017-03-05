@@ -13,6 +13,12 @@ Making mocking a pleasure!
 - Strict mocking by default (calls to non-mocked method are disabled by default)
 - Fluent intuitive interface
 
+## Requirements
+
+- PHP 5.6+
+- Composer
+- allowed `eval` language construct
+
 ## Installation
 
 ```
@@ -33,7 +39,7 @@ $doubleBuilder
     ->allowMethodCall('methodToBeStubbed')
     ->with(new Constraints\Anything, new Constraints\Anything, null) // Specify allowed parameters
     ->andReturn('return_value_1');
-$double = $doubleBuilder->build(); // <- This is the stub
+$double = $doubleBuilder->build(); // This is the stub
 ```
 
 #### Specifying return values
@@ -42,7 +48,7 @@ $double = $doubleBuilder->build(); // <- This is the stub
 $doubleBuilder
     ->allowMethodCall('methodToBeStubbed')
     ->with(new Constraints\Anything, new Constraints\Anything, null) // Specify allowed parameters
-    ->andReturn('return_value_1', 'return_value_2'); // <- returns different values on #1 and #2 call
+    ->andReturn('return_value_1', 'return_value_2'); // Returns different values on #1 and #2 call
 ```
 
 
@@ -70,11 +76,11 @@ $doubleBuilder
 $doubleBuilder
     ->allowMethodCall('methodToBeStubbed')
     ->with(new Constraints\Anything, new Constraints\Anything, 'first')
-    ->andReturn('return_value_1'); // <- returns different values on #1 and #2 call
+    ->andReturn('return_value_1'); // Returns different values on #1 and #2 call
 
 $doubleBuilder
     ->allowMethodCall('methodToBeStubbed')
-    ->with(new Constraints\Anything, new Constraints\Anything, 'second') // <- different parameter value
+    ->with(new Constraints\Anything, new Constraints\Anything, 'second') // Different parameter value
     ->andReturn('return_value_2');
 
 $double = $doubleBuilder->build();
