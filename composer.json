@@ -1,0 +1,31 @@
+{
+    "name": "chmeldax/phpmocks",
+    "type": "library",
+    "description": "Enhanced mocking of PHP classes for testing purposes",
+    "keywords": ["mocks","testing"],
+    "homepage": "https://github.com/chmeldax/phpmocks",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jan Chmelicek",
+            "email": "chmeldax@gmail.com",
+            "homepage": "http://about.me/chmeldax",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "gossi/php-code-generator": "^0.4.1"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "2.*",
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chmeldax\\PhpMocks\\": ["src", "tests"]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit tests && vendor/bin/phpcs tests --standard=PSR2"
+    }
+}
